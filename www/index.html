@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>小学三年级英语 · 单词动画课堂</title>
+<link rel="stylesheet" href="css/style.css">
+<style>
+/* 目录页专属样式 */
+#screen-catalog {
+  justify-content: flex-start;
+  gap: 22px;
+  padding-top: 6vh;
+  overflow-y: auto;
+}
+.catalog-title {
+  text-align: center;
+  font-size: clamp(36px, 7vw, 56px);
+  color: #2b6cb0;
+  text-shadow: 0 3px 0 #fff, 0 6px 14px rgba(43, 108, 176, .25);
+  letter-spacing: 2px;
+  animation: popIn .6s cubic-bezier(.2, 1.6, .4, 1) both;
+}
+.catalog-subtitle {
+  text-align: center;
+  color: #e05780;
+  font-size: clamp(18px, 3.5vw, 26px);
+  font-weight: 700;
+  letter-spacing: 6px;
+  animation: popIn .6s .15s cubic-bezier(.2, 1.6, .4, 1) both;
+}
+.catalog-desc {
+  text-align: center;
+  color: #64748b;
+  font-size: 15px;
+  letter-spacing: 2px;
+  animation: popIn .6s .25s cubic-bezier(.2, 1.6, .4, 1) both;
+}
+
+.unit-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  width: 100%;
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 0 8px 20px;
+}
+
+.unit-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  border: none;
+  cursor: pointer;
+  border-radius: 28px;
+  padding: 24px 16px 20px;
+  font-family: inherit;
+  background: #fff;
+  box-shadow: 0 8px 0 rgba(0, 0, 0, .08), 0 12px 24px rgba(0, 0, 0, .1);
+  transition: transform .2s ease, box-shadow .2s ease;
+  text-decoration: none;
+  animation: popIn .5s cubic-bezier(.2, 1.6, .4, 1) both;
+}
+.unit-card:nth-child(1) { animation-delay: .35s; }
+.unit-card:nth-child(2) { animation-delay: .45s; }
+.unit-card:nth-child(3) { animation-delay: .55s; }
+.unit-card:nth-child(4) { animation-delay: .65s; }
+
+.unit-card:hover {
+  transform: translateY(-5px) scale(1.03);
+  box-shadow: 0 12px 0 rgba(0, 0, 0, .08), 0 18px 32px rgba(0, 0, 0, .12);
+}
+.unit-card:active {
+  transform: translateY(2px);
+  box-shadow: 0 4px 0 rgba(0, 0, 0, .08), 0 6px 12px rgba(0, 0, 0, .1);
+}
+
+.unit-card.u1 { border: 4px solid #ffe3ef; }
+.unit-card.u2 { border: 4px solid #dff3e4; }
+.unit-card.u3 { border: 4px solid #e3eaff; }
+.unit-card.u4 { border: 4px solid #fff3c4; }
+
+.unit-num {
+  font-size: clamp(32px, 6vw, 44px);
+  font-weight: 800;
+  letter-spacing: 1px;
+}
+.unit-card.u1 .unit-num { color: #f76b8a; }
+.unit-card.u2 .unit-num { color: #2bb673; }
+.unit-card.u3 .unit-num { color: #4facfe; }
+.unit-card.u4 .unit-num { color: #f6a13c; }
+
+.unit-theme {
+  font-size: 16px;
+  font-weight: 700;
+  color: #556;
+  letter-spacing: 2px;
+}
+
+.unit-emoji-row {
+  display: flex;
+  gap: 6px;
+  font-size: 28px;
+  margin-top: 4px;
+}
+.unit-emoji-row span {
+  animation: floaty 2.4s ease-in-out infinite;
+}
+.unit-emoji-row span:nth-child(2) { animation-delay: .2s; }
+.unit-emoji-row span:nth-child(3) { animation-delay: .4s; }
+.unit-emoji-row span:nth-child(4) { animation-delay: .6s; }
+
+.unit-count {
+  font-size: 13px;
+  color: #94a3b8;
+  font-weight: 600;
+  margin-top: 2px;
+}
+
+@media (max-width: 480px) {
+  .unit-grid { gap: 12px; padding: 0 4px 16px; }
+  .unit-card { padding: 18px 10px 16px; border-radius: 22px; }
+  .unit-emoji-row { font-size: 24px; }
+}
+</style>
+</head>
+<body>
+<canvas id="bgCanvas"></canvas>
+
+<div id="app">
+  <section class="screen active" id="screen-catalog">
+    <h1 class="catalog-title">单词动画课堂</h1>
+    <p class="catalog-subtitle">小学三年级英语</p>
+    <p class="catalog-desc">选择单元，开始快乐学习 🎒</p>
+
+    <div class="unit-grid">
+      <a class="unit-card u1" href="unit1/">
+        <div class="unit-num">Unit 1</div>
+        <div class="unit-theme">问候与介绍</div>
+        <div class="unit-emoji-row">
+          <span>👋</span><span>🌅</span><span>👩‍🏫</span><span>🙏</span>
+        </div>
+        <div class="unit-count">14 个单词</div>
+      </a>
+
+      <a class="unit-card u2" href="unit2/">
+        <div class="unit-num">Unit 2</div>
+        <div class="unit-theme">家人与时间</div>
+        <div class="unit-emoji-row">
+          <span>👨‍👩‍👧‍👦</span><span>⏰</span><span>❓</span><span>📖</span>
+        </div>
+        <div class="unit-count">10 个单词</div>
+      </a>
+
+      <a class="unit-card u3" href="unit3/">
+        <div class="unit-num">Unit 3</div>
+        <div class="unit-theme">动物与朋友</div>
+        <div class="unit-emoji-row">
+          <span>🐶</span><span>🐷</span><span>🐴</span><span>🐰</span>
+        </div>
+        <div class="unit-count">12 个单词</div>
+      </a>
+
+      <a class="unit-card u4" href="unit4/">
+        <div class="unit-num">Unit 4</div>
+        <div class="unit-theme">颜色与数字</div>
+        <div class="unit-emoji-row">
+          <span>🔴</span><span>🔵</span><span>1️⃣</span><span>🎨</span>
+        </div>
+        <div class="unit-count">12 个单词</div>
+      </a>
+    </div>
+  </section>
+</div>
+
+<canvas id="fxCanvas"></canvas>
+
+<script src="js/fx.js"></script>
+</body>
+</html>

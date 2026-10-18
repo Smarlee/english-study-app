@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Unit 3 单词动画课堂 · 小学三年级</title>
+<link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+<canvas id="bgCanvas"></canvas>
+
+<div id="app">
+  <!-- 首页 -->
+  <section class="screen active" id="screen-home">
+    <h1 class="title pop-in">Unit 3<span class="title-cn">单词动画课堂</span></h1>
+    <p class="subtitle">小学三年级 · 动物与朋友 · 共 12 个单词</p>
+    <div class="menu">
+      <button class="menu-btn learn" data-go="learn">
+        <span class="menu-emoji">📖</span>学一学
+        <span class="menu-desc">动画卡片 · 逐个学单词</span>
+      </button>
+      <button class="menu-btn quiz" data-go="quiz">
+        <span class="menu-emoji">✏️</span>练一练
+        <span class="menu-desc">看图选词 · 闯关答题</span>
+      </button>
+      <button class="menu-btn game" data-go="game">
+        <span class="menu-emoji">🎯</span>玩一玩
+        <span class="menu-desc">点一点跑动的图标</span>
+      </button>
+    </div>
+    <div class="marquee"><div class="marquee-inner" id="marqueeInner"></div></div>
+    <div style="text-align:center;margin-top:14px;">
+      <a href="../index.html" class="ctrl-btn" style="display:inline-block;text-decoration:none;font-size:16px;padding:10px 22px;">🏠 返回目录</a>
+    </div>
+  </section>
+
+  <!-- 学一学 -->
+  <section class="screen" id="screen-learn">
+    <header class="topbar">
+      <button class="icon-btn" data-go="home" title="回首页">🏠</button>
+      <div class="progress"><div class="progress-fill" id="learnProgress"></div></div>
+      <span class="counter" id="learnCounter">1/12</span>
+    </header>
+    <div class="card-wrap">
+      <div class="word-card" id="learnCard">
+        <div class="card-emoji" id="learnEmoji">🐶</div>
+        <div class="card-word" id="learnWord"></div>
+        <div class="card-phon" id="learnPhon"></div>
+        <div class="card-cn" id="learnCn"></div>
+        <div class="card-note" id="learnNote"></div>
+      </div>
+    </div>
+    <div class="learn-controls">
+      <button class="ctrl-btn" id="learnPrev" title="上一个">⬅️</button>
+      <button class="ctrl-btn speak" id="learnSpeak">🔊 读一读</button>
+      <button class="ctrl-btn" id="learnNext" title="下一个">➡️</button>
+    </div>
+  </section>
+
+  <!-- 练一练 -->
+  <section class="screen" id="screen-quiz">
+    <header class="topbar">
+      <button class="icon-btn" data-go="home" title="回首页">🏠</button>
+      <div class="progress"><div class="progress-fill" id="quizProgress"></div></div>
+      <span class="counter" id="quizScore">⭐ 0</span>
+    </header>
+    <div class="quiz-box" id="quizBox">
+      <div class="quiz-q" id="quizQ"></div>
+      <div class="quiz-options" id="quizOptions"></div>
+      <div class="quiz-feedback" id="quizFeedback"></div>
+    </div>
+  </section>
+
+  <!-- 玩一玩 -->
+  <section class="screen" id="screen-game">
+    <header class="topbar">
+      <button class="icon-btn" data-go="home" title="回首页">🏠</button>
+      <div class="game-target">
+        找到 <b id="gameTargetWord">dog</b>
+        <button class="mini-speak" id="gameTargetSpeak" title="再读一遍">🔊</button>
+        <span class="round-tag" id="gameRound">1/8</span>
+      </div>
+      <span class="counter" id="gameScore">⭐ 0 / 8</span>
+    </header>
+    <canvas id="gameCanvas"></canvas>
+    <div class="game-hint">小动物在跑！点一点和单词一样的那一个 🐾</div>
+  </section>
+</div>
+
+<canvas id="fxCanvas"></canvas>
+
+<!-- 结算弹窗 -->
+<div class="overlay" id="overlay">
+  <div class="result-card">
+    <div class="result-emoji" id="resultEmoji">🏆</div>
+    <div class="result-title" id="resultTitle">太棒了！</div>
+    <div class="result-stars" id="resultStars">⭐⭐⭐</div>
+    <div class="result-text" id="resultText"></div>
+    <div class="result-btns">
+      <button class="ctrl-btn" id="resultRetry">🔄 再来一次</button>
+      <button class="ctrl-btn" id="resultHome">🏠 回首页</button>
+    </div>
+  </div>
+</div>
+
+<script src="js/words.js"></script>
+<script src="../js/fx.js"></script>
+<script src="../js/app.js"></script>
+</body>
+</html>

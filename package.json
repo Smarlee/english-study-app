@@ -1,0 +1,29 @@
+{
+  "name": "english-app",
+  "version": "1.0.0",
+  "description": "小学三年级英语单词动画课堂 - Android App",
+  "main": "index.js",
+  "scripts": {
+    "sync": "npx cap sync android",
+    "copy": "npx cap copy android",
+    "open": "npx cap open android",
+    "build:debug": "cd android && .\\gradlew assembleDebug",
+    "build:release": "cd android && .\\gradlew assembleRelease",
+    "clean": "cd android && .\\gradlew clean",
+    "rebuild": "npm run sync && npm run build:debug",
+    "rebuild:release": "npm run sync && npm run build:release"
+  },
+  "keywords": [
+    "capacitor",
+    "android",
+    "english",
+    "education"
+  ],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@capacitor/android": "^7.6.9",
+    "@capacitor/cli": "^7.6.9",
+    "@capacitor/core": "^7.6.9"
+  }
+}

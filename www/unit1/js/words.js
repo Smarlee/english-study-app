@@ -1,0 +1,20 @@
+const WORDS = [
+  { en: 'hi',        phon: '/haɪ/',        cn: '喂，嗨',         emoji: '👋' },
+  { en: 'hello',     phon: '/həˈləʊ/',     cn: '喂，你好',       emoji: '👋' },
+  { en: 'good',      phon: '/ɡʊd/',        cn: '好的，愉快的',   emoji: '👍' },
+  { en: 'morning',   phon: '/ˈmɔːnɪŋ/',    cn: '早晨，上午',     emoji: '🌅' },
+  { en: 'Miss',      phon: '/mɪs/',        cn: '女士，小姐',     emoji: '👩‍🏫' },
+  { en: 'and',       phon: '/ænd/',        cn: '和，与',         emoji: '➕' },
+  { en: 'I',         phon: '/aɪ/',         cn: '我',             emoji: '🙋' },
+  { en: 'am',        phon: '/æm/',         cn: '是',             emoji: '✅' },
+  { en: 'name',      phon: '/neɪm/',       cn: '名字',           emoji: '🏷️' },
+  { en: 'sister',    phon: '/ˈsɪstə(r)/',  cn: '姐，妹',         emoji: '👧' },
+  { en: 'look',      phon: '/lʊk/',        cn: '看，看起来',     emoji: '👀' },
+  { en: 'a',         phon: '/ə/',          cn: '一（个），一',   emoji: '1️⃣' },
+  { en: 'it',        phon: '/ɪt/',         cn: '它',             emoji: '📦' },
+  { en: 'not',       phon: '/nɒt/',        cn: '不，没有',       emoji: '❌' },
+  { en: 'thank',     phon: '/θæŋk/',       cn: '感谢',           emoji: '🙏' },
+  { en: 'you',       phon: '/juː/',        cn: '你，你们',       emoji: '👉' },
+  { en: 'too',       phon: '/tuː/',        cn: '也，太',         emoji: '➕' },
+  { en: 'welcome',   phon: '/ˈwelkəm/',    cn: '欢迎',           emoji: '🎉' }
+];
