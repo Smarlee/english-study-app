@@ -41,40 +41,62 @@ jobs:
           node-version: '20'
           cache: 'npm'
 
-      # 3. 安装依赖
-      - name: Install dependencies
-        run: npm ci
+      # 3. 调试：检查文件结构
+      - name: Debug - Check files
+        run: |
+          echo "=== Current Directory ==="
+          pwd
+          ls -la
+          echo "=== package.json exists? ==="
+          test -f package.json && echo "YES" || echo "NO"
+          echo "=== package-lock.json exists? ==="
+          test -f package-lock.json && echo "YES" || echo "NO"
+          echo "=== android/gradlew exists? ==="
+          test -f android/gradlew && echo "YES" || echo "NO"
+          echo "=== www/ exists? ==="
+          test -d www && echo "YES" || echo "NO"
 
-      # 4. 设置 JDK 17
+      # 4. 安装依赖（使用 npm install 作为后备）
+      - name: Install dependencies
+        run: |
+          if [ -f package-lock.json ]; then
+            echo "Using npm ci..."
+            npm ci
+          else
+            echo "Using npm install..."
+            npm install
+          fi
+
+      # 5. 设置 JDK 17
       - name: Setup JDK 17
         uses: actions/setup-java@v4
         with:
           java-version: '17'
           distribution: 'temurin'
 
-      # 5. 设置 Android SDK
+      # 6. 设置 Android SDK
       - name: Setup Android SDK
         uses: android-actions/setup-android@v3
 
-      # 6. 接受 Android SDK 许可
+      # 7. 接受 Android SDK 许可
       - name: Accept Android SDK licenses
         run: yes | sdkmanager --licenses || true
 
-      # 7. 安装必要的 SDK 组件
+      # 8. 安装必要的 SDK 组件（与项目配置匹配：compileSdkVersion = 35）
       - name: Install SDK components
         run: |
-          sdkmanager "platforms;android-34"
-          sdkmanager "build-tools;34.0.0"
+          sdkmanager "platforms;android-35"
+          sdkmanager "build-tools;35.0.0"
 
-      # 8. 给 Gradle wrapper 添加执行权限（Linux/macOS 必需）
+      # 9. 给 Gradle wrapper 添加执行权限（Linux/macOS 必需）
       - name: Grant execute permission for gradlew
         run: chmod +x android/gradlew
 
-      # 9. 同步 Capacitor
+      # 10. 同步 Capacitor
       - name: Sync Capacitor
         run: npx cap sync android
 
-      # 10. 更新版本号 (手动触发时)
+      # 11. 更新版本号 (手动触发时)
       - name: Update version
         if: github.event_name == 'workflow_dispatch'
         working-directory: ./android/app
@@ -82,17 +104,17 @@ jobs:
           sed -i "s/versionCode .*/versionCode ${{ github.event.inputs.version_code }}/" build.gradle
           sed -i "s/versionName .*/versionName \"${{ github.event.inputs.version_name }}\"/" build.gradle
 
-      # 11. 构建 Debug APK (用于测试)
+      # 12. 构建 Debug APK (用于测试)
       - name: Build Debug APK
         working-directory: ./android
-        run: ./gradlew assembleDebug
+        run: ./gradlew assembleDebug --stacktrace
 
-      # 12. 构建 Release AAB (未签名，用于 Google Play 你自己签名)
+      # 13. 构建 Release AAB (未签名，用于 Google Play 你自己签名)
       - name: Build Release AAB
         working-directory: ./android
-        run: ./gradlew bundleRelease
+        run: ./gradlew bundleRelease --stacktrace
 
-      # 13. 上传 Debug APK 到 Artifact
+      # 14. 上传 Debug APK 到 Artifact
       - name: Upload Debug APK
         uses: actions/upload-artifact@v4
         with:
@@ -100,7 +122,7 @@ jobs:
           path: android/app/build/outputs/apk/debug/app-debug.apk
           retention-days: 30
 
-      # 14. 上传 Release AAB 到 Artifact
+      # 15. 上传 Release AAB 到 Artifact
       - name: Upload Release AAB
         uses: actions/upload-artifact@v4
         with:
@@ -108,7 +130,7 @@ jobs:
           path: android/app/build/outputs/bundle/release/app-release.aab
           retention-days: 90
 
-      # 15. 上传到 GitHub Release (仅手动触发时)
+      # 16. 上传到 GitHub Release (仅手动触发时)
       - name: Create GitHub Release
         if: github.event_name == 'workflow_dispatch'
         uses: softprops/action-gh-release@v1
