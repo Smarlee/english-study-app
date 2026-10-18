@@ -47,6 +47,10 @@ jobs:
           sdkmanager "platforms;android-34"
           sdkmanager "build-tools;34.0.0"
 
+      # 给 Gradle wrapper 添加执行权限（Linux/macOS 必需）
+      - name: Grant execute permission for gradlew
+        run: chmod +x android/gradlew
+
       - name: Sync Capacitor
         run: npx cap sync android
 
@@ -62,7 +66,7 @@ jobs:
           sed -i "s/versionCode .*/versionCode ${{ github.event.inputs.version_code }}/" build.gradle
           sed -i "s/versionName .*/versionName \"${{ github.event.inputs.version_name }}\"/" build.gradle
 
-      # 配置签名并构建
+      # 配置签名并构建 AAB
       - name: Build Signed AAB
         working-directory: ./android
         run: ./gradlew bundleRelease
@@ -72,6 +76,7 @@ jobs:
           KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
           KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
 
+      # 配置签名并构建 APK
       - name: Build Signed APK
         working-directory: ./android
         run: ./gradlew assembleRelease

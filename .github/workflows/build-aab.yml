@@ -66,11 +66,15 @@ jobs:
           sdkmanager "platforms;android-34"
           sdkmanager "build-tools;34.0.0"
 
-      # 8. 同步 Capacitor
+      # 8. 给 Gradle wrapper 添加执行权限（Linux/macOS 必需）
+      - name: Grant execute permission for gradlew
+        run: chmod +x android/gradlew
+
+      # 9. 同步 Capacitor
       - name: Sync Capacitor
         run: npx cap sync android
 
-      # 9. 更新版本号 (手动触发时)
+      # 10. 更新版本号 (手动触发时)
       - name: Update version
         if: github.event_name == 'workflow_dispatch'
         working-directory: ./android/app
@@ -78,17 +82,17 @@ jobs:
           sed -i "s/versionCode .*/versionCode ${{ github.event.inputs.version_code }}/" build.gradle
           sed -i "s/versionName .*/versionName \"${{ github.event.inputs.version_name }}\"/" build.gradle
 
-      # 10. 构建 Debug APK (用于测试)
+      # 11. 构建 Debug APK (用于测试)
       - name: Build Debug APK
         working-directory: ./android
         run: ./gradlew assembleDebug
 
-      # 11. 构建 Release AAB (未签名，用于 Google Play 你自己签名)
+      # 12. 构建 Release AAB (未签名，用于 Google Play 你自己签名)
       - name: Build Release AAB
         working-directory: ./android
         run: ./gradlew bundleRelease
 
-      # 12. 上传 Debug APK 到 Artifact
+      # 13. 上传 Debug APK 到 Artifact
       - name: Upload Debug APK
         uses: actions/upload-artifact@v4
         with:
@@ -96,7 +100,7 @@ jobs:
           path: android/app/build/outputs/apk/debug/app-debug.apk
           retention-days: 30
 
-      # 13. 上传 Release AAB 到 Artifact
+      # 14. 上传 Release AAB 到 Artifact
       - name: Upload Release AAB
         uses: actions/upload-artifact@v4
         with:
@@ -104,7 +108,7 @@ jobs:
           path: android/app/build/outputs/bundle/release/app-release.aab
           retention-days: 90
 
-      # 14. 上传到 GitHub Release (仅手动触发时)
+      # 15. 上传到 GitHub Release (仅手动触发时)
       - name: Create GitHub Release
         if: github.event_name == 'workflow_dispatch'
         uses: softprops/action-gh-release@v1
